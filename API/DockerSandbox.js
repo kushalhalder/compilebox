@@ -60,8 +60,8 @@ DockerSandbox.prototype.prepare = function(success) {
     var request = require('request');
     var sandbox = this;
     exec("mkdir " + this.path + this.folder + " && cp " + this.path + "/Payload/* " + this.path + this.folder + "&& chmod 777 " + this.path + this.folder, function(st) {
-        var stream = fs.createWriteStream(sandbox.path + sandbox.folder + "/" + sandbox.file_name);
-        stream.on('end', function() {
+        var fileStream = fs.createWriteStream(sandbox.path + sandbox.folder + "/" + sandbox.file_name);
+        fileStream.on('end', function() {
             console.log(sandbox.langName + " file was saved!");
             exec("chmod 777 \'" + sandbox.path + sandbox.folder + "/" + sandbox.file_name + "\'");
             fs.writeFile(sandbox.path + sandbox.folder + "/inputFile", sandbox.stdin_data, function(err) {
@@ -73,7 +73,7 @@ DockerSandbox.prototype.prepare = function(success) {
                 }
             });
         });
-        stream.on('error', function() {
+        fileStream.on('error', function() {
             console.log('error');
         }).on('data', function(chunk) {
             console.log('got %d bytes of data', chunk.length);
@@ -87,7 +87,7 @@ DockerSandbox.prototype.prepare = function(success) {
             console.log('URL status: ' + response.statusCode);
             console.log('Content-Type' + response.headers['content-type']);
         })
-        .pipe(stream);
+        .pipe(fileStream);
     });
 };
 /*
