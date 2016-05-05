@@ -75,6 +75,8 @@ DockerSandbox.prototype.prepare = function(success) {
         });
         stream.on('error', function() {
             console.log('error');
+        }).on('data', function(chunk) {
+            console.log('got %d bytes of data', chunk.length);
         });
         request
         .get(sandbox.code)
