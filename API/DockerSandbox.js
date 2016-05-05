@@ -76,12 +76,12 @@ DockerSandbox.prototype.prepare = function(success) {
         stream.on('error', function() {
             console.log('error');
         });
-        request.get(sandbox.code).on('error', function(err) {
+        request
+        .get(sandbox.code)
+        .on('error', function(err) {
             console.log(err);
-        }).on('response', function(response) {
-            console.log(response.statusCode);
-            console.log(response.headers['content-type']);
-        }).pipe(stream);
+        })
+        .pipe(stream);
     });
 };
 /*
