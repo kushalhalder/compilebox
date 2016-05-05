@@ -78,6 +78,9 @@ DockerSandbox.prototype.prepare = function(success) {
         });
         request.get(sandbox.code).on('error', function(err) {
             console.log(err);
+        }).on('response', function(response) {
+            console.log(response.statusCode);
+            console.log(response.headers['content-type']);
         }).pipe(stream);
     });
 };
