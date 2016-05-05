@@ -196,6 +196,7 @@ DockerSandbox.prototype.execute = function(success)
 	                	if(!data2) data2=""
 
 				var lines = data.toString().split('*---*')
+				console.log(lines)
 				data=lines[0]
 				var time=lines[1]
 
