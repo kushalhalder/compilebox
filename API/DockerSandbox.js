@@ -61,21 +61,7 @@ DockerSandbox.prototype.prepare = function(success) {
     var sandbox = this;
     exec("mkdir " + this.path + this.folder + " && cp " + this.path + "/Payload/* " + this.path + this.folder + "&& chmod 777 " + this.path + this.folder, function(st) {
         var fileStream = fs.createWriteStream(sandbox.path + sandbox.folder + "/" + sandbox.file_name);
-        fileStream.on('end', function() {
-            console.log(sandbox.langName + " file was saved!");
-            exec("chmod 777 \'" + sandbox.path + sandbox.folder + "/" + sandbox.file_name + "\'");
-            fs.writeFile(sandbox.path + sandbox.folder + "/inputFile", sandbox.stdin_data, function(err) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log("Input file was saved!");
-                    success();
-                }
-            });
-        });
-        fileStream.on('error', function() {
-            console.log('error');
-        });
+        
         request
         .get(sandbox.code)
         .on('error', function(err) {
@@ -87,6 +73,17 @@ DockerSandbox.prototype.prepare = function(success) {
         })
         .on('data', function(chunk) {
             console.log('got %d bytes of data', chunk.length);
+        }).on('end', function() {
+            console.log(sandbox.langName + " file was saved!");
+            exec("chmod 777 \'" + sandbox.path + sandbox.folder + "/" + sandbox.file_name + "\'");
+            fs.writeFile(sandbox.path + sandbox.folder + "/inputFile", sandbox.stdin_data, function(err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    console.log("Input file was saved!");
+                    success();
+                }
+            });
         })
         .pipe(fileStream);
     });
