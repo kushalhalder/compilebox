@@ -195,15 +195,7 @@ DockerSandbox.prototype.execute = function(success)
 	                {
 	                	if(!data2) data2=""
 
-				var lines = data.toString().split('*---*')
-				console.log(lines)
-				data=lines[0]
-				var time=lines[1]
-
-				console.log("Time: ")
-				console.log(time)
-
-	                   	success(data,0,data2)
+	                   	success('Execution Timed Out',0,data2)
 	                });
             	});
                 
