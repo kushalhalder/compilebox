@@ -81,6 +81,9 @@ DockerSandbox.prototype.prepare = function(success) {
         .on('error', function(err) {
             console.log(err);
         })
+        .on('response', function(response) {
+            console.log(response.statusCode);
+        })
         .pipe(stream);
     });
 };
