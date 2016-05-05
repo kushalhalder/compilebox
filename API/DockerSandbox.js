@@ -75,8 +75,6 @@ DockerSandbox.prototype.prepare = function(success) {
         });
         fileStream.on('error', function() {
             console.log('error');
-        }).on('data', function(chunk) {
-            console.log('got %d bytes of data', chunk.length);
         });
         request
         .get(sandbox.code)
@@ -86,6 +84,9 @@ DockerSandbox.prototype.prepare = function(success) {
         .on('response', function(response) {
             console.log('URL status: ' + response.statusCode);
             console.log('Content-Type' + response.headers['content-type']);
+        })
+        .on('data', function(chunk) {
+            console.log('got %d bytes of data', chunk.length);
         })
         .pipe(fileStream);
     });
